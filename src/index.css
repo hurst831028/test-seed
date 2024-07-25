@@ -3,3 +3,9 @@ body {
   padding: 0;
   margin: 0;
 }
+
+@font-face {
+  font-family: "LanaPixel";
+  font-weight: 400;
+  src: url('/fonts/LanaPixel.ttf');
+}
