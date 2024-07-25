@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/telegram-reactjs-template/',
+  base: './',
   plugins: [
     // Allows using React dev server along with building a React application with Vite.
     // https://npmjs.com/package/@vitejs/plugin-react-swc
@@ -17,7 +17,6 @@ export default defineConfig({
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
     // basicSsl(),
   ],
-  publicDir: './public',
   server: {
     // Exposes your dev server and makes it accessible for the devices in the same network.
     host: true,

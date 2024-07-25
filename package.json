@@ -1,9 +1,8 @@
 {
-  "name": "reactjs-template",
+  "name": "seed-of-ton",
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://hurst831028.github.io/telegram-reactjs-template",
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite",

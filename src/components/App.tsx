@@ -1,11 +1,15 @@
 
 import {
-//  useLaunchParams,
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  //useLaunchParams,
+  useMiniApp,
   useViewport,
+  useThemeParams,
 } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { Unity, useUnityContext } from 'react-unity-webgl';
-import { type FC, Fragment} from 'react';
+import { type FC, useEffect, Fragment} from 'react';
 
 export const App: FC = () => {
 
@@ -17,13 +21,24 @@ export const App: FC = () => {
   });
 
   //const lp = useLaunchParams();
+  const miniApp = useMiniApp();
   const viewport = useViewport();
+  const themeParams = useThemeParams();
 
   viewport?.expand()
-  
   const canvasWidth = viewport?.width;
   const canvasHeight = viewport?.height;
+  miniApp.setBgColor('#000000');
+  miniApp.setHeaderColor('#000000');
   
+  useEffect(() => {
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
+
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
+
   return (
     <AppRoot>
       <Fragment>
