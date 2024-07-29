@@ -67,9 +67,23 @@ export const App: FC = () => {
   const handleGameIsReady = useCallback(() => {  
     if (user) {  
       console.log('WebMessage user id:' + user.id.toString())
-      sendMessage('WebMessage', 'SetUserInfo', user.id.toString());  
+
+      const userDict = {  
+        added_to_attachment_menu: user?.addedToAttachmentMenu
+        ,allows_write_to_pm: user?.allowsWriteToPm
+        ,first_name: user?.firstName
+        ,id: user?.id
+        ,is_bot: user?.isBot
+        ,is_premium: user?.isPremium
+        ,language_code: user?.languageCode
+        ,last_name: user?.lastName
+        ,photo_url: user?.photoUrl
+        ,username: user?.username  
+      };
+
+      const userJsonString = JSON.stringify(userDict); 
+      sendMessage('WebMessage', 'SetUserInfo', userJsonString);
     } else {  
-      // 处理 user 未定义的情况  
       console.log('user is nil')
     }  
   }, [isLoaded]);
@@ -83,57 +97,67 @@ export const App: FC = () => {
 
   return (
     <AppRoot>
-      {!isLoaded ? (
-        <div
-          style={{
-            width: canvasWidth,
-            height: canvasHeight,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-          }}
-        >
-          <img  
-            src="./loading-web.png"
-            alt="Loading"  
-            style={{  
-              width: 'auto',
-              height: 'auto',
-              maxWidth: '100%',
-              maxHeight: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              //marginBottom: '20px',
-            }}  
-          />
-          <p  
-            style={{  
-              position: 'absolute',  
-              fontFamily: 'LanaPixel',  
-              fontSize: '38px',  
-              color: 'white',   
-              //textShadow: '2px 2px 4px #000000',
-            }}  
-          >  
-            loading...{Math.round(loadingProgression * 100)}%  
-          </p> 
-
-        </div>
-      ) : null}
-      <Unity
-        unityProvider={unityProvider}
-        devicePixelRatio={devicePixelRatio}
+      <div
         style={{
           width: canvasWidth,
           height: canvasHeight,
-          visibility: isLoaded ? "visible" : "hidden"
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
+      >
+        {!isLoaded ? (
+          <div
+            style={{
+              width: canvasWidth,
+              height: canvasHeight,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              backgroundColor: 'rgba(0, 0, 0, 1)',
+            }}
+          >
+            <img  
+              src="./loading-web.png"
+              alt="Loading"  
+              style={{  
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'absolute',
+                //marginBottom: '20px',
+              }}  
+            />
+            <p  
+              style={{  
+                position: 'absolute',  
+                fontFamily: 'LanaPixel',  
+                fontSize: '38px',  
+                color: 'white',   
+                //textShadow: '2px 2px 4px #000000',
+              }}  
+            >  
+              loading...{Math.round(loadingProgression * 100)}%  
+            </p> 
+
+          </div>
+        ) : null}
+        <Unity
+          unityProvider={unityProvider}
+          devicePixelRatio={devicePixelRatio}
+          style={{
+            width: canvasWidth,
+            height: canvasHeight,
+            visibility: isLoaded ? "visible" : "hidden"
+          }}
+        />
+      </div>
     </AppRoot>
   );
 };
