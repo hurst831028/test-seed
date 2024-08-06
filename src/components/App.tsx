@@ -200,9 +200,9 @@ export const App: FC = () => {
                 maxWidth: '100%',  
                 maxHeight: '100%',  
                 position: 'absolute',  
-                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
-                left: 'calc(50% - 100px)', // 调整水平位置  
-                transform: 'translateX(-50%)', // 微调水平位置，使其居中  
+                bottom: '100px',
+                left: 'calc(50% - 100px)', 
+                transform: 'translateX(-50%)',
               }}  
               onClick={handleTelegramClick}
             />
@@ -215,9 +215,9 @@ export const App: FC = () => {
                 maxWidth: '100%',  
                 maxHeight: '100%',  
                 position: 'absolute',  
-                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
-                left: 'calc(50%)', // 水平居中  
-                transform: 'translateX(-50%)', // 使用transform来微调水平位置  
+                bottom: '100px', 
+                left: 'calc(50%)',   
+                transform: 'translateX(-50%)',
               }}
               onClick={handleXClick}
             />
@@ -230,9 +230,9 @@ export const App: FC = () => {
                 maxWidth: '100%',  
                 maxHeight: '100%',  
                 position: 'absolute',  
-                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
-                left: 'calc(50% + 100px)', // 水平居中  
-                transform: 'translateX(-50%)', // 使用transform来微调水平位置  
+                bottom: '100px', 
+                left: 'calc(50% + 100px)',
+                transform: 'translateX(-50%)',
               }}
               onClick={handleYoutubeClick}  
             />
