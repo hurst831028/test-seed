@@ -12,7 +12,7 @@ import {
 } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { Unity, useUnityContext } from 'react-unity-webgl';
-import { type FC, useEffect, useCallback} from 'react';
+import { type FC, useEffect, useCallback, useRef} from 'react';
 
 const sharedtext = "Come and play with me, let's be friends and get Airdrop tokens for free!\n\
 💸  10k Coins as a first-time gift\n\
@@ -37,6 +37,7 @@ export const App: FC = () => {
     codeUrl: 'build/StageBuild.wasm.unityweb',
   });
 
+  const rootDivRef = useRef<HTMLDivElement>(null); 
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const viewport = useViewport();
@@ -78,13 +79,14 @@ export const App: FC = () => {
 
   const handleShareURL = useCallback((...parameters: any[]) => {  
     //console.log({ parameters });
-    
     utils.shareURL(appUrl + parameters[0], sharedtext)
   }, [isLoaded]);
 
   const handleCopyURL = useCallback((...parameters: any[]) => {  
     console.log({ parameters });
     try {  
+      rootDivRef.current?.focus();
+
       const text = appUrl + parameters[0] + "\n" + sharedtext;  
       //console.log(text);
       navigator.clipboard.writeText(text);  
@@ -145,6 +147,7 @@ export const App: FC = () => {
   return (
     <AppRoot>
       <div
+        ref={rootDivRef}
         style={{
           width: canvasWidth,
           height: canvasHeight,
