@@ -18,6 +18,9 @@ const sharedtext = "Come and play with me, let's be friends and get Airdrop toke
 💸  10k Coins as a first-time gift\n\
 🔥  50k Coins if you have Telegram Premium"
 const appUrl = "https://t.me/my_dev01_bot/miniapp?startapp="
+const telegramLink = "https://t.me/SeedsofTON"
+const xLink = "https://twitter.com/SeedsofTon"
+const youtubeLink = "https://www.youtube.com/@seedsofton"
 
 export const App: FC = () => {
 
@@ -99,10 +102,13 @@ export const App: FC = () => {
       switch(handle)
       {
         case "tg_community":
-          utils.openTelegramLink("https://t.me/SeedsofTON");
+          utils.openTelegramLink(telegramLink);
           break;
         case "xxx":
-          utils.openLink("https://twitter.com/SeedsofTon");
+          utils.openLink(xLink);
+          break;
+        case "youtube":
+          utils.openLink(youtubeLink);
           break;
       }
     } catch (err) {  
@@ -110,6 +116,18 @@ export const App: FC = () => {
     }  
     //utils.shareURL(parameters[0], "CopyURL ")
   }, [isLoaded]);
+
+  const handleTelegramClick = () => {  
+    utils.openTelegramLink(telegramLink);  
+  };  
+  
+  const handleXClick = () => {  
+    utils.openLink(xLink);
+  };  
+  
+  const handleYoutubeClick = () => {  
+    utils.openLink(youtubeLink);  
+  };
 
   useEffect(() => {  
     addEventListener("OnGameIsReady", handleGameIsReady);  
@@ -149,8 +167,7 @@ export const App: FC = () => {
               backgroundColor: 'rgba(0, 0, 0, 1)',
             }}
           >
-            <img  
-              src="./loading-web.png"
+            <img src="./loading-web.png"
               alt="Loading"  
               style={{  
                 width: 'auto',
@@ -174,7 +191,51 @@ export const App: FC = () => {
             >  
               loading...{Math.round(loadingProgression * 100)}%  
             </p> 
+            
+            <img src="./buttons/telegram.png"
+              alt="Loading"  
+              style={{  
+                width: 'auto',  
+                height: 'auto',  
+                maxWidth: '100%',  
+                maxHeight: '100%',  
+                position: 'absolute',  
+                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
+                left: 'calc(50% - 100px)', // 调整水平位置  
+                transform: 'translateX(-50%)', // 微调水平位置，使其居中  
+              }}  
+              onClick={handleTelegramClick}
+            />
 
+            <img src="./buttons/x.png"
+              alt="Loading"  
+              style={{  
+                width: 'auto',  
+                height: 'auto',  
+                maxWidth: '100%',  
+                maxHeight: '100%',  
+                position: 'absolute',  
+                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
+                left: 'calc(50%)', // 水平居中  
+                transform: 'translateX(-50%)', // 使用transform来微调水平位置  
+              }}
+              onClick={handleXClick}
+            />
+
+            <img src="./buttons/youtube.png"
+              alt="Loading"  
+              style={{  
+                width: 'auto',  
+                height: 'auto',  
+                maxWidth: '100%',  
+                maxHeight: '100%',  
+                position: 'absolute',  
+                bottom: '100px', // 使用bottom属性将图片对齐到容器底部  
+                left: 'calc(50% + 100px)', // 水平居中  
+                transform: 'translateX(-50%)', // 使用transform来微调水平位置  
+              }}
+              onClick={handleYoutubeClick}  
+            />
           </div>
         ) : null}
         <Unity
