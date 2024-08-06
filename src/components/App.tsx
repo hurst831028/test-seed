@@ -2,22 +2,22 @@
 import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
-  //useLaunchParams,
+  useLaunchParams,
   useMiniApp,
   useViewport,
   useThemeParams,
   useMainButton,
-  useInitData,
-  type User,
-  type InitData
+  retrieveLaunchParams,
+  useUtils,
 } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { Unity, useUnityContext } from 'react-unity-webgl';
 import { type FC, useEffect, useCallback} from 'react';
 
-function getUser(initData: InitData | undefined): User | undefined {  
-  return initData && initData.user ? initData.user : undefined;  
-}
+const sharedtext = "Come and play with me, let's be friends and get Airdrop tokens for free!\n\
+💸  10k Coins as a first-time gift\n\
+🔥  50k Coins if you have Telegram Premium"
+const appUrl = "https://t.me/my_dev01_bot/miniapp?startapp="
 
 export const App: FC = () => {
 
@@ -34,21 +34,21 @@ export const App: FC = () => {
     codeUrl: 'build/StageBuild.wasm.unityweb',
   });
 
-  //const lp = useLaunchParams();
-  const initData = useInitData();  
+  const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const viewport = useViewport();
   const themeParams = useThemeParams();
   const mainButton = useMainButton();
+  const utils = useUtils();
+  const { initDataRaw } = retrieveLaunchParams();
 
   const canvasWidth = viewport?.width;
   const canvasHeight = viewport?.height;
   
-  const user = getUser(initData);
-
   useEffect(() => {  
     miniApp.setBgColor('#000000');
     miniApp.setHeaderColor('#000000');
+    miniApp.ready()
     mainButton.hide();
   }, []);
 
@@ -65,33 +65,62 @@ export const App: FC = () => {
   }, [themeParams]);
 
   const handleGameIsReady = useCallback(() => {  
-    if (user) {  
-      console.log('WebMessage user id:' + user.id.toString())
+    
+    console.log('SetStartParam:' + lp.startParam)
+    sendMessage('WebMessage', 'SetStartParam', lp.startParam ? lp.startParam : "");
+    console.log('initDataRaw:' + initDataRaw);
+    sendMessage('WebMessage', 'SetInitDataRaw', initDataRaw);
+      
+  }, [isLoaded]);
 
-      const userDict = {  
-        added_to_attachment_menu: user?.addedToAttachmentMenu
-        ,allows_write_to_pm: user?.allowsWriteToPm
-        ,first_name: user?.firstName
-        ,id: user?.id
-        ,is_bot: user?.isBot
-        ,is_premium: user?.isPremium
-        ,language_code: user?.languageCode
-        ,last_name: user?.lastName
-        ,photo_url: user?.photoUrl
-        ,username: user?.username  
-      };
+  const handleShareURL = useCallback((...parameters: any[]) => {  
+    //console.log({ parameters });
+    
+    utils.shareURL(appUrl + parameters[0], sharedtext)
+  }, [isLoaded]);
 
-      const userJsonString = JSON.stringify(userDict); 
-      sendMessage('WebMessage', 'SetUserInfo', userJsonString);
-    } else {  
-      console.log('user is nil')
+  const handleCopyURL = useCallback((...parameters: any[]) => {  
+    console.log({ parameters });
+    try {  
+      const text = appUrl + parameters[0] + "\n" + sharedtext;  
+      //console.log(text);
+      navigator.clipboard.writeText(text);  
+      console.log('Copy to clipboard');  
+    } catch (err) {  
+      console.error('Copy to clipboard fail:', err);  
     }  
+    //utils.shareURL(parameters[0], "CopyURL ")
+  }, [isLoaded]);
+
+  const handleOpenSomething = useCallback((...parameters: any[]) => {  
+    console.log({ parameters });
+    try {  
+      const handle = parameters[0]
+      switch(handle)
+      {
+        case "tg_community":
+          utils.openTelegramLink("https://t.me/SeedsofTON");
+          break;
+        case "xxx":
+          utils.openLink("https://twitter.com/SeedsofTon");
+          break;
+      }
+    } catch (err) {  
+      
+    }  
+    //utils.shareURL(parameters[0], "CopyURL ")
   }, [isLoaded]);
 
   useEffect(() => {  
     addEventListener("OnGameIsReady", handleGameIsReady);  
+    addEventListener("ShareURL", handleShareURL);  
+    addEventListener("CopyURL", handleCopyURL); 
+    addEventListener("OpenSomething", handleOpenSomething);
     return () => {  
       removeEventListener("OnGameIsReady", handleGameIsReady);  
+      removeEventListener("ShareURL", handleShareURL);  
+      removeEventListener("CopyURL", handleCopyURL);  
+      removeEventListener("OpenSomething", handleOpenSomething);
     };  
   }, [addEventListener, removeEventListener, isLoaded]);
 
