@@ -13,6 +13,7 @@ import {
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { Unity, useUnityContext } from 'react-unity-webgl';
 import { type FC, useEffect, useCallback, useRef} from 'react';
+import copy from 'copy-to-clipboard';
 
 const sharedtext = "Come and play with me, let's be friends and get Airdrop tokens for free!\n\
 💸  10k Coins as a first-time gift\n\
@@ -70,8 +71,11 @@ export const App: FC = () => {
 
   const handleGameIsReady = useCallback(() => {  
     
-    console.log('SetStartParam:' + lp.startParam)
-    sendMessage('WebMessage', 'SetStartParam', lp.startParam ? lp.startParam : "");
+    const originalString = lp.startParam ? lp.startParam : "d";  
+    const startParam = originalString.slice(0, -1); 
+
+    console.log('SetStartParam:' + startParam)
+    sendMessage('WebMessage', 'SetStartParam', startParam);
     console.log('initDataRaw:' + initDataRaw);
     sendMessage('WebMessage', 'SetInitDataRaw', initDataRaw);
       
@@ -79,17 +83,18 @@ export const App: FC = () => {
 
   const handleShareURL = useCallback((...parameters: any[]) => {  
     //console.log({ parameters });
-    utils.shareURL(appUrl + parameters[0], sharedtext)
+    utils.shareURL(appUrl + parameters[0] + "d", sharedtext)
   }, [isLoaded]);
 
   const handleCopyURL = useCallback((...parameters: any[]) => {  
-    console.log({ parameters });
+    //console.log({ parameters });
     try {  
-      rootDivRef.current?.focus();
+      //rootDivRef.current?.focus();
 
-      const text = appUrl + parameters[0] + "\n" + sharedtext;  
+      const text = appUrl + parameters[0] + "d" + "\n" + sharedtext;  
       //console.log(text);
-      navigator.clipboard.writeText(text);  
+      copy(text);
+      //navigator.clipboard.writeText(text);  
       console.log('Copy to clipboard');  
     } catch (err) {  
       console.error('Copy to clipboard fail:', err);  
