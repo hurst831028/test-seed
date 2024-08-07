@@ -19,9 +19,11 @@ const sharedtext = "Come and play with me, let's be friends and get Airdrop toke
 💸  10k Coins as a first-time gift\n\
 🔥  50k Coins if you have Telegram Premium"
 const appUrl = "https://t.me/my_dev01_bot/miniapp?startapp="
+const apiUrl = "https://game-api.seedsofton.xyz/"
 const telegramLink = "https://t.me/SeedsofTON"
 const xLink = "https://twitter.com/SeedsofTon"
 const youtubeLink = "https://www.youtube.com/@seedsofton"
+
 
 export const App: FC = () => {
 
@@ -73,33 +75,25 @@ export const App: FC = () => {
     
     const originalString = lp.startParam ? lp.startParam : "d";  
     const startParam = originalString.slice(0, -1); 
-
-    console.log('SetStartParam:' + startParam)
     sendMessage('WebMessage', 'SetStartParam', startParam);
-    console.log('initDataRaw:' + initDataRaw);
     sendMessage('WebMessage', 'SetInitDataRaw', initDataRaw);
-      
+    console.log("" + apiUrl);
+    sendMessage('WebMessage', 'SetAPIURL', apiUrl);
   }, [isLoaded]);
 
   const handleShareURL = useCallback((...parameters: any[]) => {  
-    //console.log({ parameters });
+    
     utils.shareURL(appUrl + parameters[0] + "d", sharedtext)
   }, [isLoaded]);
 
   const handleCopyURL = useCallback((...parameters: any[]) => {  
-    //console.log({ parameters });
     try {  
-      //rootDivRef.current?.focus();
-
       const text = appUrl + parameters[0] + "d" + "\n" + sharedtext;  
-      //console.log(text);
       copy(text);
-      //navigator.clipboard.writeText(text);  
       console.log('Copy to clipboard');  
     } catch (err) {  
       console.error('Copy to clipboard fail:', err);  
     }  
-    //utils.shareURL(parameters[0], "CopyURL ")
   }, [isLoaded]);
 
   const handleOpenSomething = useCallback((...parameters: any[]) => {  
@@ -121,7 +115,6 @@ export const App: FC = () => {
     } catch (err) {  
       
     }  
-    //utils.shareURL(parameters[0], "CopyURL ")
   }, [isLoaded]);
 
   const handleTelegramClick = () => {  
