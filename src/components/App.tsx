@@ -152,6 +152,26 @@ export const App: FC = () => {
     }  
   }, [isLoaded]);
 
+  const handleOpenLink = useCallback((...parameters: any[]) => {  
+    console.log({ parameters });
+    try {  
+      const handle = parameters[0]
+      const url = parameters[1]
+      switch(handle)
+      {
+        case "telegram_link":
+          utils.openTelegramLink(url);
+          break;
+        case "link":
+          utils.openLink(url);
+          break;
+      }
+    } catch (err) {  
+      
+    }  
+  }, [isLoaded]);
+
+
   const handleTelegramClick = () => {  
     utils.openTelegramLink(telegramLink);  
   };  
@@ -169,11 +189,13 @@ export const App: FC = () => {
     addEventListener("ShareURL", handleShareURL);  
     addEventListener("CopyURL", handleCopyURL); 
     addEventListener("OpenSomething", handleOpenSomething);
+    addEventListener("OpenLink", handleOpenLink);
     return () => {  
       removeEventListener("OnGameIsReady", handleGameIsReady);  
       removeEventListener("ShareURL", handleShareURL);  
       removeEventListener("CopyURL", handleCopyURL);  
       removeEventListener("OpenSomething", handleOpenSomething);
+      removeEventListener("OpenLink", handleOpenLink);
     };  
   }, [addEventListener, removeEventListener, isLoaded]);
 
