@@ -20,7 +20,7 @@ const sharedText = "Come and play with me, let's be friends and get Airdrop toke
 🔥  50k Coins if you have Telegram Premium"
 const socialSeedSharedText = "Come to my homeland and assistance my seeds mature. Together, We will all get air drop tokens!\n\
 💎💎💎 New users will get 1,000,000 coins for first assistance\n\
-💰💰💰 Other users will earn 100,000 coins for each assistance they provide"
+💰💰💰 Long-term users will earn 100,000 coins for each assistance they provide"
 
 const appUrl = "https://t.me/my_dev01_bot/miniapp?startapp="
 const apiUrl = "https://seed-test.9x9168.com:9100/"
