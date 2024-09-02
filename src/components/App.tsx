@@ -294,6 +294,20 @@ export const App: FC = () => {
               }}
               onClick={handleYoutubeClick}  
             />
+
+            <p  
+              style={{  
+                position: 'absolute',  
+                bottom: '5px', // Adjust this value to move the version number up or down  
+                width: '100%',  
+                textAlign: 'center',  
+                fontFamily: 'LanaPixel',  
+                fontSize: '16px',  
+                color: 'white',  
+              }}  
+            >  
+              Version 0.0.6  
+            </p>
           </div>
         ) : null}
         <Unity
